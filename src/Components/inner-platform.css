@@ -44,7 +44,6 @@
     letter-spacing: 0.3px;
   }
 
-  
   .inner-solid-ring {
     position: absolute;
     left: 50%;
@@ -55,10 +54,12 @@
     border-radius: 50%;
     border: 1px solid rgba(59, 130, 246, 0.4); /* same as core-slim-ring */
     background: transparent;
-    box-shadow: none;          /* solid appearance, no glow */
     pointer-events: none;
     z-index: 3;                /* sits behind bubbles */
+    animation: innerRingPulsate 3.6s ease-in-out infinite;
+    box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.2);
   }
+  
   
   .orbit-path.inner-orbit.duplicate-ring {
     left: 50%;
@@ -324,6 +325,20 @@
       height: 215px; 
       border-color: rgba(59, 130, 246, 0.4);
       box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.3);
+    }
+  }
+  @keyframes innerRingPulsate {
+    0% { 
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.2);
+    }
+    50% { 
+      border-color: rgba(59, 130, 246, 0.8);
+      box-shadow: 0 0 15px 4px rgba(59, 130, 246, 0.5);
+    }
+    100% { 
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.2);
     }
   }
   
