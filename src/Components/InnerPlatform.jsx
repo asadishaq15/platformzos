@@ -238,17 +238,20 @@ useEffect(() => {
     }
   };
 }, [containerDimensions]);
-  useEffect(() => {
-    const innerOrbit = innerOrbitRef.current;
-    const innerCircle = innerCircleRef.current;
+useEffect(() => {
+  const innerOrbit = innerOrbitRef.current;
+  const innerCircle = innerCircleRef.current;
 
-    if (innerOrbit) {
-      innerOrbit.style.animation = "rotate 140s linear infinite";
-    }
-    if (innerCircle) {
-      innerCircle.style.animation = "glow 10s ease-in-out infinite";
-    }
-  }, []);
+  if (innerOrbit) {
+    // use the CSS variable for one single source of truth
+    innerOrbit.style.animation = "rotate var(--orbit-duration) linear infinite";
+  }
+  if (innerCircle) {
+    // slightly faster glow to keep the whole composition feeling snappier
+    innerCircle.style.animation = "glow 8s ease-in-out infinite";
+  }
+}, []);
+
 
   const createInnerBubbles = () => {
     const bubbles = [];

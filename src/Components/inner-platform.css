@@ -1,6 +1,6 @@
 /* Full page container - centered page */
 :root {
-  --orbit-duration: 140s; /* change once here if you want a different speed */
+  --orbit-duration: 70s; /* change once here if you want a different speed */
 }
 
 .full-page-container {
@@ -49,16 +49,19 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;              /* same radius as inner-orbit-circle */
+    width: 500px;
     height: 500px;
     border-radius: 50%;
-    border: 1px solid rgba(59, 130, 246, 0.4); /* same as core-slim-ring */
+    border: 2px solid rgba(59, 130, 246, 0.5); /* Thicker border for visibility */
     background: transparent;
     pointer-events: none;
-    z-index: 3;                /* sits behind bubbles */
-    animation: innerRingPulsate 3.6s ease-in-out infinite;
-    box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.2);
+    z-index: 3;
+    animation: innerRingPulsate 2.6s ease-in-out infinite; /* Same timing as core */
+    box-shadow: 
+      0 0 15px 2px rgba(59, 130, 246, 0.3),
+      0 0 30px 5px rgba(59, 130, 246, 0.15);
   }
+  
   
   
   .orbit-path.inner-orbit.duplicate-ring {
@@ -106,22 +109,32 @@
   /* Connection lines between core and bubbles */
   .connection-line {
     position: absolute;
-    height: 2px;
-    background-color: rgba(59, 130, 246, 0.4);
+    height: 3px; /* Slightly increased thickness */
+    background-color: rgba(59, 130, 246, 0.1); /* Darker base color for lines */
     transform-origin: left center;
     z-index: 1;
     pointer-events: none;
+    overflow: hidden;
+    box-shadow: 0 0 4px 1px rgba(59, 130, 246, 0.15); /* Darker subtle glow */
   }
   
-  /* Animated energy pulse on connection lines */
+  /* Animated energy pulse on connection lines - darker variant */
   .energy-pulse {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #3b82f6;
-    top: -4px;
-    animation: energyPulseReverse 3s infinite;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      rgba(59, 130, 246, 0) 0%,
+      rgba(59, 130, 246, 0.15) 15%, /* Darker gradient */
+      rgba(59, 130, 246, 0.8) 50%, /* Less bright at center */
+      rgba(59, 130, 246, 0.15) 85%,
+      rgba(59, 130, 246, 0) 100%
+    );
+    animation: energyFlow 2.6s ease-in-out infinite;
+    filter: blur(2px); /* Soft blur for glow effect */
+    box-shadow: 
+      0 0 10px 4px rgba(59, 130, 246, 0.5), /* Darker glow */
+      0 0 20px 6px rgba(59, 130, 246, 0.25); /* Darker secondary glow */
   }
   
   /* Bubble style */
@@ -151,6 +164,8 @@
     transition: transform 180ms ease;
     box-shadow: 0 0 10px 0 rgba(59,130,246,0.5);
     border: 1px solid rgba(59, 130, 246, 0.3);
+    /* Added animation for synchronized glow */
+    animation: bubbleGlow 2.6s ease-in-out infinite;
   }
   
   /* Inner bubble adjustments */
@@ -207,7 +222,7 @@
     border: 1px solid rgba(91,33,182,0.8);
   
     /* stronger, smooth pulse that scales slightly */
-    animation: corePulseProminent 3.6s ease-in-out infinite;
+    animation: corePulseProminent 2.6s ease-in-out infinite;
     transition: box-shadow 200ms linear, transform 200ms linear;
   }
 
@@ -229,7 +244,7 @@
       rgba(16,24,86,0) 70%
     );
     filter: blur(16px);
-    animation: coreHaloPulse 3.6s ease-in-out infinite;
+    animation: coreHaloPulse 2.6s ease-in-out infinite; 
   }
   
   /* inner sheen that grows with the pulse */
@@ -251,7 +266,7 @@
       rgba(91,33,182,0) 70%
     );
     mix-blend-mode: screen;
-    animation: coreInnerSheen 3.6s ease-in-out infinite;
+    animation: coreInnerSheen 2.6s ease-in-out infinite;
   }
   
   /* Core content */
@@ -276,13 +291,12 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    border: 1px solid rgba(59, 130, 246, 0.4); /* keep original ring tint if you prefer */
+    border: 1px solid rgba(59, 130, 246, 0.6); /* Slightly more visible */
     z-index: 3;
     pointer-events: none;
-    animation: coreRingPulsate 3.6s ease-in-out infinite;
-    box-shadow: 0 0 12px 3px rgba(91,33,182,0.26);
+    animation: coreRingPulsate 2.6s ease-in-out infinite;
+    box-shadow: 0 0 12px 3px rgba(91, 33, 182, 0.26);
   }
-  
 
   
   /* Keyframes */
@@ -307,38 +321,68 @@
     100% { left: 0%; opacity: 0.2; }
   }
   
+  /* New animation for bubble glow synchronized with connection lines */
+  @keyframes bubbleGlow {
+    0% {
+      box-shadow: 0 0 10px 0 rgba(59,130,246,0.4);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+    50% {
+      box-shadow: 
+        0 0 15px 5px rgba(59,130,246,0.6),
+        0 0 25px 8px rgba(59,130,246,0.3);
+      border-color: rgba(59, 130, 246, 0.7);
+    }
+    100% {
+      box-shadow: 0 0 10px 0 rgba(59,130,246,0.4);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+  }
+  
   @keyframes coreRingPulsate {
     0% { 
       width: 215px; 
       height: 215px; 
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.3);
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.4);
     }
     50% { 
       width: 225px; 
       height: 225px; 
-      border-color: rgba(59, 130, 246, 0.8);
-      box-shadow: 0 0 12px 4px rgba(59, 130, 246, 0.6);
+      border-color: rgba(59, 130, 246, 1);
+      box-shadow: 
+        0 0 15px 5px rgba(59, 130, 246, 0.7),
+        0 0 25px 8px rgba(59, 130, 246, 0.4);
     }
     100% { 
       width: 215px; 
       height: 215px; 
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.3);
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.4);
     }
   }
+  
   @keyframes innerRingPulsate {
     0% { 
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.2);
+      opacity: 0.7;
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 
+        0 0 15px 3px rgba(59, 130, 246, 0.3),
+        0 0 30px 6px rgba(59, 130, 246, 0.15);
     }
     50% { 
-      border-color: rgba(59, 130, 246, 0.8);
-      box-shadow: 0 0 15px 4px rgba(59, 130, 246, 0.5);
+      opacity: 1;
+      border-color: rgba(59, 130, 246, 1);
+      box-shadow: 
+        0 0 25px 8px rgba(59, 130, 246, 0.6),
+        0 0 50px 12px rgba(59, 130, 246, 0.3);
     }
     100% { 
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.2);
+      opacity: 0.7;
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 
+        0 0 15px 3px rgba(59, 130, 246, 0.3),
+        0 0 30px 6px rgba(59, 130, 246, 0.15);
     }
   }
   
@@ -375,35 +419,50 @@
   z-index: 3;
 }
 
-  @keyframes corePulseProminent {
-    0% {
-      transform: scale(1);
-      box-shadow:
-        0 0 26px 8px rgba(91,33,182,0.28),
-        0 0 36px 10px rgba(30,64,175,0.10) inset;
-    }
-    50% {
-      transform: scale(1.035);
-      box-shadow:
-        0 0 80px 28px rgba(91,33,182,0.52),
-        0 0 56px 18px rgba(30,64,175,0.14) inset;
-    }
-    100% {
-      transform: scale(1);
-      box-shadow:
-        0 0 26px 8px rgba(91,33,182,0.28),
-        0 0 36px 10px rgba(30,64,175,0.10) inset;
-    }
+
+@keyframes energyFlow {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
   }
+  50% {
+    opacity: 0.8; /* Slightly reduced opacity for darker effect */
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes corePulseProminent {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 26px 8px rgba(91,33,182,0.28),
+      0 0 36px 10px rgba(30,64,175,0.10) inset;
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow:
+      0 0 80px 28px rgba(91,33,182,0.52),
+      0 0 56px 18px rgba(30,64,175,0.14) inset;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 26px 8px rgba(91,33,182,0.28),
+      0 0 36px 10px rgba(30,64,175,0.10) inset;
+  }
+}
   
-  @keyframes coreHaloPulse {
-    0%   { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-    50%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.06); }
-    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-  }
-  
-  @keyframes coreInnerSheen {
-    0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    50%  { transform: translate(-50%, -50%) scale(1.12); opacity: 0.96; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  }
+@keyframes coreHaloPulse {
+  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+  100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes coreInnerSheen {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.12); opacity: 0.96; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
