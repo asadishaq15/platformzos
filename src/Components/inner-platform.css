@@ -1,4 +1,7 @@
 /* Full page container - centered page */
+:root {
+  --orbit-duration: 140s; /* change once here if you want a different speed */
+}
 
 .full-page-container {
     width: 100%;
@@ -160,8 +163,11 @@
   
   /* NEW: Counter-rotate class for consistent text orientation */
   .counter-rotate-text {
-    padding: 10px;
-    animation: counter-rotate 140s linear infinite;
+    display: inline-block;           /* allow transforms without affecting layout */
+    transform-origin: center center; /* pivot around its center */
+    animation: counter-rotate var(--orbit-duration) linear infinite;
+    will-change: transform;
+    pointer-events: none;            /* avoid interfering with hover/interaction on bubble */
   }
   
   /* bubble text style - removed animation from here */

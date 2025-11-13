@@ -332,11 +332,14 @@ useEffect(() => {
             <div className="energy-pulse"></div>
           </div>
 
-          <div className="bubble-rot-wrapper">
-            <div className="platform-bubble inner-bubble">
-              <div className="bubble-label">{innerBubblesData[i].name}</div>
-            </div>
-          </div>
+          <div className="platform-bubble inner-bubble">
+  {/* keep label wrapper but add counter-rotate wrapper inside */}
+  <div className="bubble-label">
+    <div className="counter-rotate-text">
+      {innerBubblesData[i].name}
+    </div>
+  </div>
+</div>
         </div>
       );
     }
