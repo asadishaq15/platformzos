@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
      
-         <Route path="/platformzos2" element={<InnerPlatform />} /> 
+         <Route path="/" element={<InnerPlatform />} /> 
       </Routes>
     </Router>
   );
