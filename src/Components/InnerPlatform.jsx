@@ -9,6 +9,14 @@ const InnerPlatform = () => {
   const containerRef = useRef(null);
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: 0, y: 0, active: false, returning: false });
+
+  // timing tweaks for staggered glow
+  const baseDelay = 0.85;      // seconds — when bubbles begin to glow
+  const stagger = 0.25;        // seconds — extra delay per bubble index
+  const ringExtraDelay = 0.20; // seconds — how much later the ring starts after baseDelay
+  const ringDelay = baseDelay + ringExtraDelay; 
+
+
   const animationFrameRef = useRef(null);
   const [containerDimensions, setContainerDimensions] = useState({
     width: window.innerWidth,
@@ -253,102 +261,79 @@ useEffect(() => {
 }, []);
 
 
-  const createInnerBubbles = () => {
-    const bubbles = [];
-    const orbitRadius = 250; // Distance from center to bubble centers
-    const coreRadius = 110; // Core slim ring radius (220px / 2)
-  
-    const innerBubblesData = [
-      { name: "ORDER MANAGEMENT", position: "top" },
-      { 
-        name: (
-          <>
-            MARKETPLACES & RETAIL CHANNELS
-            <br />
-            (1P & 3P)
-          </>
-        ),
-        position: "right"
-      },
-      { name: "PORTALS", position: "bottom" },
-      { name: "FULFILLMENT & LOGISTICS", position: "left" },
-    ];
-    
-  
-    for (let i = 0; i < innerBubblesCount; i++) {
-      const angle = (i / innerBubblesCount) * 2 * Math.PI - Math.PI / 4; // Start from top
-      const x = Math.round(orbitRadius * Math.cos(angle));
-      const y = Math.round(orbitRadius * Math.sin(angle));
-  
-      // Calculate line length - distance from core ring to bubble position
-      const lineLength = orbitRadius - coreRadius;
-      
-      // Determine if this bubble has outer text
-      const hasOuterText = innerBubblesData[i].outerText;
+const createInnerBubbles = () => {
+  const bubbles = [];
+  const orbitRadius = 250; // Distance from center to bubble centers
+  const coreRadius = 110; // Core slim ring radius (220px / 2)
 
-      // Calculate outer text position - move it farther from the center
-      const outerTextPositioning = () => {
-        // Handle the PORTALS (bottom) and MARKETPLACES (right) differently
-        if (innerBubblesData[i].position === "bottom") {
-          return {
-            position: 'absolute',
-            width: '150px',
-            textAlign: 'center',
-            top: '70px',
-            right: '90%',
-            transform: 'translateX(-50%)',
-            animation: 'counter-rotate 140s linear infinite'
-          };
-        } else if (innerBubblesData[i].position === "right") {
-          return {
-            position: 'absolute',
-            width: '120px',
-            textAlign: 'left',
-            right: '-125px',
-            top: '20%',
-            transform: 'translateY(-50%)',
-            animation: 'counter-rotate 140s linear infinite'
-          };
-        }
-      };
-  
-      bubbles.push(
+  const innerBubblesData = [
+    { name: "ORDER MANAGEMENT", position: "top" },
+    {
+      name: (
+        <>
+          MARKETPLACES & RETAIL CHANNELS
+          <br />
+          (1P & 3P)
+        </>
+      ),
+      position: "right"
+    },
+    { name: "PORTALS", position: "bottom" },
+    { name: "FULFILLMENT & LOGISTICS", position: "left" },
+  ];
+
+  for (let i = 0; i < innerBubblesCount; i++) {
+    const angle = (i / innerBubblesCount) * 2 * Math.PI - Math.PI / 4; // Start from top
+    const x = Math.round(orbitRadius * Math.cos(angle));
+    const y = Math.round(orbitRadius * Math.sin(angle));
+
+    // Calculate line length - distance from core ring to bubble position
+    const lineLength = orbitRadius - coreRadius;
+
+    bubbles.push(
+      <div
+        className="platform-bubble-container"
+        key={`inner-${i}`}
+        style={{
+          transform: `translate(${x}px, ${y}px)`,
+        }}
+      >
+        {/* Connection line */}
         <div
-          className="platform-bubble-container"
-          key={`inner-${i}`}
+          className="connection-line"
           style={{
-            transform: `translate(${x}px, ${y}px)`,
+            width: `${lineLength}px`,
+            transform: `rotate(${(angle * 180) / Math.PI + 180}deg)`, // +180 to point toward core
+            transformOrigin: "0 0",
+            position: "absolute",
+            left: "0",
+            top: "0",
           }}
         >
-          {/* Connection line */}
-          <div
-            className="connection-line"
-            style={{
-              width: `${lineLength}px`,
-              transform: `rotate(${(angle * 180) / Math.PI + 180}deg)`, // +180 to point toward core
-              transformOrigin: "0 0",
-              position: "absolute",
-              left: "0",
-              top: "0",
-            }}
-          >
-            <div className="energy-pulse"></div>
-          </div>
-
-          <div className="platform-bubble inner-bubble">
-  {/* keep label wrapper but add counter-rotate wrapper inside */}
-  <div className="bubble-label">
-    <div className="counter-rotate-text">
-      {innerBubblesData[i].name}
-    </div>
-  </div>
-</div>
+          <div className="energy-pulse"></div>
         </div>
-      );
-    }
-  
-    return bubbles;
-  };
+
+        {/* apply animationDelay to the bubble element (staggered) */}
+        <div
+          className="platform-bubble inner-bubble"
+          style={{
+            animationDelay: `${baseDelay + i * stagger}s`,
+            WebkitAnimationDelay: `${baseDelay + i * stagger}s`,
+          }}
+        >
+          <div className="bubble-label">
+            <div className="counter-rotate-text">
+              {innerBubblesData[i].name}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return bubbles;
+};
+
 
   return (
     <div className="full-page-container" ref={containerRef}>
@@ -377,7 +362,13 @@ useEffect(() => {
           </div>
         </div>
         
-        <div className="inner-solid-ring" />
+        <div
+  className="inner-solid-ring"
+  style={{
+    animationDelay: `${ringDelay}s`,
+    WebkitAnimationDelay: `${ringDelay}s`
+  }}
+/>
         <div ref={innerOrbitRef} className="inner-orbit-circle">
           {createInnerBubbles()}
         </div>

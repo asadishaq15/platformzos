@@ -1,6 +1,9 @@
 /* Full page container - centered page */
 :root {
-  --orbit-duration: 70s; /* change once here if you want a different speed */
+  --orbit-duration: 70s; /* existing */
+  --core-pulse-duration: 2.6s; /* central pulse length (was hard-coded) */
+  --pulse-offset: 0.85s;/* delay applied to ring and first bubble (tweak) */
+  --bubble-stagger: 0.18s; /* not required if using inline styles, kept for reference */
 }
 
 .full-page-container {
@@ -100,12 +103,17 @@
     width: 500px;
     height: 500px;
     border-radius: 50%;
-    border: 2px solid rgba(59, 130, 246, 0.5); /* Thicker border for visibility */
+    border: 2px solid rgba(59, 130, 246, 0.5);
     background: transparent;
     pointer-events: none;
     z-index: 3;
-    animation: innerRingPulsate 2.6s ease-in-out infinite; /* Same timing as core */
-    box-shadow: 
+  
+    /* Use variable durations + small offset so ring glows slightly after core */
+    animation: innerRingPulsate var(--core-pulse-duration) ease-in-out infinite;
+    animation-delay: var(--pulse-offset);
+    -webkit-animation-delay: var(--pulse-offset);
+  
+    box-shadow:
       0 0 15px 2px rgba(59, 130, 246, 0.3),
       0 0 30px 5px rgba(59, 130, 246, 0.15);
   }
@@ -221,7 +229,8 @@
     box-shadow: 0 0 10px 0 rgba(59,130,246,0.5);
     border: 1px solid rgba(59, 130, 246, 0.3);
     /* Added animation for synchronized glow */
-    animation: bubbleGlow 2.6s ease-in-out infinite;
+    animation: bubbleGlow var(--core-pulse-duration) ease-in-out infinite;
+    animation-delay: calc(var(--pulse-offset) + var(--bubble-stagger, 0s));
   }
   
   /* Inner bubble adjustments */
@@ -278,7 +287,8 @@
     border: 1px solid rgba(91,33,182,0.8);
   
     /* stronger, smooth pulse that scales slightly */
-    animation: corePulseProminent 2.6s ease-in-out infinite;
+    animation: corePulseProminent var(--core-pulse-duration) ease-in-out infinite;
+
     transition: box-shadow 200ms linear, transform 200ms linear;
   }
 
