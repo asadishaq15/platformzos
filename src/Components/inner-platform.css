@@ -1,9 +1,9 @@
-/* Full page container - centered page */
+
 :root {
-  --orbit-duration: 70s; /* existing */
-  --core-pulse-duration: 2.6s; /* central pulse length (was hard-coded) */
-  --pulse-offset: 0.85s;/* delay applied to ring and first bubble (tweak) */
-  --bubble-stagger: 0.18s; /* not required if using inline styles, kept for reference */
+  --orbit-duration: 70s; 
+  --core-pulse-duration: 2.6s; 
+  --pulse-offset: 0.85s;
+  --bubble-stagger: 0.18s; 
 }
 
 .full-page-container {
@@ -18,7 +18,7 @@
     overflow: hidden;
   }
   
-  /* Focused orbital container (inner-only) */
+  
   .orbital-platform-container.inner-only {
     position: relative;
     width: 560px;
@@ -35,10 +35,10 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 120px;               /* inner glow size - tweak if needed */
+    width: 120px;               
     height: 120px;
     border-radius: 50%;
-    z-index: 5;                 /* sits above ring overlay but below text */
+    z-index: 5;                 
     pointer-events: none;
     background: radial-gradient(
       circle at center,
@@ -49,12 +49,12 @@
     );
     mix-blend-mode: screen;
     filter: blur(14px);
-    /* sync with your other pulses, but offset a little to feel more organic */
+    
     animation: innerPurplePulse 2.6s ease-in-out infinite;
     will-change: transform, opacity, filter;
   }
   
-  /* Slightly larger, subtler halo behind the inner glow (optional, created by a pseudo element) */
+  
   .core-inner-glow::before {
     content: "";
     position: absolute;
@@ -78,19 +78,19 @@
   }
 
   
-  /* Add this */
+ 
 .bubble-label {
-    display: block;              /* ensures width applies */
-    max-width: 215px;           /* <-- reduce this to control text width */
+    display: block;              
+    max-width: 215px;           
     box-sizing: border-box;
-    padding: 6px 8px;           /* inner breathing room */
+    padding: 6px 8px;           
     text-align: center;
-    white-space: normal;        /* allow wrapping */
+    white-space: normal;        
     word-wrap: break-word;
     overflow-wrap: anywhere;
     hyphens: auto;
     line-height: 1.15;
-    font-size: 12px;           /* tweak for legibility */
+    font-size: 12px;           
     font-weight: 700;
     letter-spacing: 0.3px;
   }
@@ -108,7 +108,7 @@
     pointer-events: none;
     z-index: 3;
   
-    /* Use variable durations + small offset so ring glows slightly after core */
+   
     animation: innerRingPulsate var(--core-pulse-duration) ease-in-out infinite;
     animation-delay: var(--pulse-offset);
     -webkit-animation-delay: var(--pulse-offset);
@@ -125,17 +125,17 @@
     top: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    width: 480px;   /* same radius/size as main inner orbit */
+    width: 480px;
     height: 480px;
     border-radius: 50%;
     border: 1px solid rgba(59, 130, 246, 0.4);
     background: transparent;
     box-shadow: none;
     pointer-events: none;
-    z-index: 3; /* adjust if you want it above/below the other ring */
+    z-index: 3;
   }
   
-  /* visible inner orbit ring */
+  
   .orbit-path.inner-orbit {
     position: absolute;
     width: 440px;
@@ -153,7 +153,7 @@
     z-index: 3;
   }
   
-  /* Bubble container positioning */
+  
   .platform-bubble-container {
     position: absolute;
     top: 50%;
@@ -162,50 +162,50 @@
     pointer-events: auto;
   }
   
-  /* Connection lines between core and bubbles */
+  
   .connection-line {
     position: absolute;
-    height: 3px; /* Slightly increased thickness */
+    height: 3px; 
     background-color: rgba(59, 130, 246, 0.1); /* Darker base color for lines */
     transform-origin: left center;
     z-index: 1;
     pointer-events: none;
     overflow: hidden;
-    box-shadow: 0 0 4px 1px rgba(59, 130, 246, 0.15); /* Darker subtle glow */
+    box-shadow: 0 0 4px 1px rgba(59, 130, 246, 0.15); 
   }
   
-  /* Animated energy pulse on connection lines - darker variant */
+  
   .energy-pulse {
     position: absolute;
     width: 100%;
     height: 100%;
     pointer-events: none;
   
-    /* very bright neon center with soft edges */
+    
     background: linear-gradient(90deg,
       rgba(0, 245, 255, 0) 0%,
       rgba(0, 220, 255, 0.25) 10%,
-      rgba(0, 245, 255, 1) 50%,        /* bright neon center */
+      rgba(0, 245, 255, 1) 50%,       
       rgba(102, 224, 255, 0.25) 90%,
       rgba(0, 245, 255, 0) 100%
     );
   
     animation: energyFlow 2.6s ease-in-out infinite;
-    filter: blur(4px); /* stronger bloom for neon */
+    filter: blur(4px); 
     mix-blend-mode: screen;
   
-    /* stronger, layered neon halos */
+    
     box-shadow:
-      0 0 28px 10px rgba(0, 245, 255, 0.98),  /* tight, very bright core glow */
-      0 0 72px 36px rgba(0, 180, 255, 0.36),  /* wide ambient halo */
-      0 0 140px 70px rgba(0, 150, 255, 0.18); /* ultra-soft outer wash */
+      0 0 28px 10px rgba(0, 245, 255, 0.98), 
+      0 0 72px 36px rgba(0, 180, 255, 0.36),  
+      0 0 140px 70px rgba(0, 150, 255, 0.18); 
   }
   
-  /* Bubble style */
+  
   .platform-bubble {
-    position: relative;
-    width: 180px;
-    height: 120px;
+    position: absolute; /* Change from relative to absolute */
+    width: 130px;  /* Make width and height consistent */
+    height: 130px;
     border-radius: 50%;
     background-image: radial-gradient(
       circle at 30% 30%,
@@ -221,43 +221,37 @@
     text-align: center;
     font-size: 12px;
     font-weight: 700;
-    margin-left: -60px;
-    margin-top: -60px;
     z-index: 4;
     overflow: hidden;
     transition: transform 180ms ease;
     box-shadow: 0 0 10px 0 rgba(59,130,246,0.5);
     border: 1px solid rgba(59, 130, 246, 0.3);
-    /* Added animation for synchronized glow */
     animation: bubbleGlow var(--core-pulse-duration) ease-in-out infinite;
     animation-delay: calc(var(--pulse-offset) + var(--bubble-stagger, 0s));
   }
   
-  /* Inner bubble adjustments */
+  
+  
   .inner-bubble {
-    width: 130px;
-    height: 130px;
-    margin-left: -55px;
-    margin-top: -55px;
     line-height: 1.3;
   }
   
-  /* NEW: Counter-rotate class for consistent text orientation */
+ 
   .counter-rotate-text {
-    display: inline-block;           /* allow transforms without affecting layout */
-    transform-origin: center center; /* pivot around its center */
+    display: inline-block;           
+    transform-origin: center center; 
     animation: counter-rotate var(--orbit-duration) linear infinite;
     will-change: transform;
-    pointer-events: none;            /* avoid interfering with hover/interaction on bubble */
+    pointer-events: none;            
   }
   
-  /* bubble text style - removed animation from here */
+  
   .bubble-content {
     padding: 10px;
   }
  
   
-  /* Core in center */
+  
   .platform-core {
     position: relative;
     width: 260px;
@@ -271,7 +265,7 @@
     text-align: center;
     z-index: 5;
   
-    /* keep your original color mixture/saturation */
+   
     background-image: radial-gradient(
       circle at center,
       #5b21b6 30%,
@@ -279,14 +273,14 @@
       #1e3a8a 100%
     );
   
-    /* layered glow + subtle inset to increase presence without changing hue */
+    
     box-shadow:
-      0 0 26px 8px rgba(91,33,182,0.28),   /* outer halo tuned to original purple */
-      0 0 36px 10px rgba(30,64,175,0.10) inset; /* inner sheen that matches the gradient */
+      0 0 26px 8px rgba(91,33,182,0.28),   
+      0 0 36px 10px rgba(30,64,175,0.10) inset; 
   
     border: 1px solid rgba(91,33,182,0.8);
   
-    /* stronger, smooth pulse that scales slightly */
+   
     animation: corePulseProminent var(--core-pulse-duration) ease-in-out infinite;
 
     transition: box-shadow 200ms linear, transform 200ms linear;
@@ -313,7 +307,7 @@
     animation: coreHaloPulse 2.6s ease-in-out infinite; 
   }
   
-  /* inner sheen that grows with the pulse */
+  
   .platform-core::after {
     content: "";
     position: absolute;
@@ -335,12 +329,12 @@
     animation: coreInnerSheen 2.6s ease-in-out infinite;
   }
   
-  /* Core content */
+  
   .core-content {
     z-index: 6;
   }
   
-  /* Core text sits above ring */
+  
   .core-title {
     font-size: 20px;
     font-weight: 700;
@@ -348,7 +342,7 @@
     line-height: 1.2;
   }
   
-  /* Slim ring around the core */
+  
   .core-slim-ring {
     position: absolute;
     width: 200px;
@@ -357,7 +351,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    border: 1px solid rgba(59, 130, 246, 0.6); /* Slightly more visible */
+    border: 1px solid rgba(59, 130, 246, 0.6);
     z-index: 3;
     pointer-events: none;
     animation: coreRingPulsate 2.6s ease-in-out infinite;
@@ -365,7 +359,7 @@
   }
 
   
-  /* Keyframes */
+ 
   @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -376,7 +370,7 @@
     to { transform: rotate(-360deg); }
   }
   
-  /* Original animation - kept for reference */
+  
   @keyframes maintain-orientation {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -387,7 +381,7 @@
     100% { left: 0%; opacity: 0.2; }
   }
   
-  /* New animation for bubble glow synchronized with connection lines */
+  
   @keyframes bubbleGlow {
     0% {
       box-shadow: 0 0 10px 0 rgba(59,130,246,0.4);
@@ -488,7 +482,7 @@
     }
   }
   
-  /* responsive scaling */
+  
   @media (max-width: 740px) {
 
     .orbital-platform-container.inner-only { transform: scale(0.68); }
@@ -515,7 +509,7 @@
   z-index: 2;
 }
 
-/* Ensure the orbital container has proper positioning */
+
 .orbital-platform-container {
   position: relative;
   z-index: 3;
@@ -528,7 +522,7 @@
     opacity: 0;
   }
   50% {
-    opacity: 0.8; /* Slightly reduced opacity for darker effect */
+    opacity: 0.8; 
   }
   100% {
     transform: translateX(-100%);
