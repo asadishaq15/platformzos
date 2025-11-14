@@ -1,3 +1,4 @@
+// InnerPlatform.jsx - Updated code
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -11,6 +12,7 @@ const InnerPlatform = () => {
   const containerRef = useRef(null);
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: 0, y: 0, active: false, returning: false });
+  const rotatingRingRef = useRef(null); // Reference for the new rotating ring
 
   const baseDelay = 0.85;
   const stagger = 0.25;
@@ -221,12 +223,16 @@ const InnerPlatform = () => {
   useEffect(() => {
     const innerOrbit = innerOrbitRef.current;
     const innerCircle = innerCircleRef.current;
+    const rotatingRing = rotatingRingRef.current;
 
     if (innerOrbit) {
       innerOrbit.style.animation = "rotate var(--orbit-duration) linear infinite";
     }
     if (innerCircle) {
       innerCircle.style.animation = "glow 8s ease-in-out infinite";
+    }
+    if (rotatingRing) {
+      rotatingRing.style.animation = "counter-rotate 45s linear infinite";
     }
   }, []);
 
@@ -319,6 +325,98 @@ const InnerPlatform = () => {
   
     return bubbles;
   };
+  
+  // Updated function for creating curved text on the ring
+  const createCurvedText = (text, position, radius, startAngle, arcAngle) => {
+    const chars = text.split('');
+    const angleStep = arcAngle / chars.length;
+    
+    return (
+      <div className={`curved-text ${position}`}>
+        {chars.map((char, i) => {
+          const angle = startAngle + angleStep * i;
+          const x = radius * Math.cos(angle);
+          const y = radius * Math.sin(angle);
+          
+          return (
+            <span 
+              key={`${position}-char-${i}`}
+              className="curved-char"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle + Math.PI/2}rad)`,
+                transformOrigin: 'center'
+              }}
+            >
+              {char}
+            </span>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // Create dots for the rotating ring with exclusion zones for text
+  const createRotatingRingDots = () => {
+    const dots = [];
+    const dotCount = 48; // Keeping the same dot count
+    const radius = 340; // Same radius
+    
+    // Define exclusion zones for text with wider ranges (in radians)
+    const exclusionZones = [
+      { start: -Math.PI/2 - 0.8, end: -Math.PI/2 + 0.8 },    // Top text zone (wider)
+      { start: Math.PI/2 - 0.8, end: Math.PI/2 + 0.8 }       // Bottom text zone (wider)
+    ];
+    
+    const isInExclusionZone = (angle) => {
+      // Normalize angle to [0, 2π]
+      let normalizedAngle = angle % (2 * Math.PI);
+      if (normalizedAngle < 0) normalizedAngle += 2 * Math.PI;
+      
+      return exclusionZones.some(zone => {
+        // Normalize zone bounds
+        let zoneStart = zone.start % (2 * Math.PI);
+        if (zoneStart < 0) zoneStart += 2 * Math.PI;
+        
+        let zoneEnd = zone.end % (2 * Math.PI);
+        if (zoneEnd < 0) zoneEnd += 2 * Math.PI;
+        
+        // Check if angle is in zone (handle wrap-around case)
+        if (zoneStart <= zoneEnd) {
+          return normalizedAngle >= zoneStart && normalizedAngle <= zoneEnd;
+        } else {
+          return normalizedAngle >= zoneStart || normalizedAngle <= zoneEnd;
+        }
+      });
+    };
+    
+    for (let i = 0; i < dotCount; i++) {
+      const angle = (i / dotCount) * 2 * Math.PI;
+      
+      // Skip dots that would overlap with text
+      if (isInExclusionZone(angle)) continue;
+      
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      
+      dots.push(
+        <div
+          key={`dot-${i}`}
+          className="ring-dot"
+          style={{
+            left: `calc(50% + ${x}px)`,
+            top: `calc(50% + ${y}px)`,
+            transform: 'translate(-50%, -50%)',
+            animationDelay: `${i * 0.08}s`
+          }}
+        />
+      );
+    }
+    
+    return dots;
+  };
 
   return (
     <div className="full-page-container" ref={containerRef}>
@@ -337,6 +435,19 @@ const InnerPlatform = () => {
       />
 
       <div className="orbital-platform-container inner-only">
+        {/* Updated rotating ring with curved text */}
+        <div 
+          ref={rotatingRingRef}
+          className="rotating-ring"
+        >
+          {/* Curved text implementation */}
+          {createCurvedText("GLOBAL MARKETPLACE NETWORK", "top", 340, -Math.PI/2 - 0.6, 1.3)}
+          {createCurvedText("PREBUILT CONNECTORS FOR THOUSANDS OF RETAIL ENDPOINTS", "bottom", 340, Math.PI/2 - 0.8, 1.6)}
+          
+          {/* Dots with exclusion zones */}
+          {createRotatingRingDots()}
+        </div>
+
         <div className="platform-core">
           <div className="core-slim-ring" />
           <div className="core-content">

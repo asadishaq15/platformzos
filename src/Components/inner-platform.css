@@ -357,8 +357,117 @@
     animation: coreRingPulsate 2.6s ease-in-out infinite;
     box-shadow: 0 0 12px 3px rgba(91, 33, 182, 0.26);
   }
+  .rotating-ring {
+    position: absolute;
+    width: 680px; /* Increased from 580px */
+    height: 680px;
+    border-radius: 50%;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 15px 2px rgba(59, 130, 246, 0.15);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .curved-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    color: rgba(102, 224, 255, 1); /* Updated to match the subtext color */
+    text-shadow: 0 0 10px rgba(102, 224, 255, 0.9); /* Updated to match the subtext text-shadow */
+    font-weight: 600; /* Changed from 700 to 600 to match subtext */
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .curved-text.top {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  
+  .curved-text.bottom {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    /* Removed opacity: 0.8; to maintain consistent color brightness */
+  }
+  
+  .curved-char {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 
   
+  .ring-text {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(102, 224, 255, 0.9);
+    text-shadow: 0 0 10px rgba(102, 224, 255, 0.7);
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+    z-index: 2;
+  }
+  
+  .top-text {
+    top: 10px;
+    transform: translateX(-50%);
+    left: 50%;
+  }
+  
+  .bottom-text {
+    bottom: 10px;
+    transform: translateX(-50%);
+    left: 50%;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  
+.ring-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(102, 224, 255, 0.8);
+  box-shadow: 0 0 6px 2px rgba(102, 224, 255, 0.5);
+  z-index: 1;
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+  
+  @keyframes dotPulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.5;
+    }
+  }
+  
+  /* Responsive adjustments for the rotating ring */
+  @media (max-width: 740px) {
+    .rotating-ring {
+      transform: scale(0.64);
+    }
+  }
+  @media (max-width: 500px) {
+    .rotating-ring {
+      transform: scale(0.55);
+    }
+  }
  
   @keyframes rotate {
     from { transform: rotate(0deg); }
