@@ -460,12 +460,12 @@
   /* Responsive adjustments for the rotating ring */
   @media (max-width: 740px) {
     .rotating-ring {
-      transform: scale(0.64);
+      transform: scale(0.60);
     }
   }
   @media (max-width: 500px) {
     .rotating-ring {
-      transform: scale(0.55);
+      transform: scale(0.50);
     }
   }
  
@@ -594,18 +594,18 @@
   
   @media (max-width: 740px) {
 
-    .orbital-platform-container.inner-only { transform: scale(0.68); }
+    .orbital-platform-container.inner-only { transform: scale(0.60); }
   }
   
   @media (max-width: 420px) and (orientation: portrait) {
    
-    .orbital-platform-container.inner-only { transform: scale(0.65); }
+    .orbital-platform-container.inner-only { transform: scale(0.60); }
   }
 
   @media (max-width: 500px) {
    
     
-    .orbital-platform-container.inner-only { transform: scale(0.55); }
+    .orbital-platform-container.inner-only { transform: scale(0.48); }
   }
 
   .particle-canvas {
